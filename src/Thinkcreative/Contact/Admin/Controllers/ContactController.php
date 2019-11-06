@@ -8,8 +8,9 @@ use Illuminate\Http\Request;
 
 
 use Thinkcreative\Contact\Contact;
-use Illuminate\Support\Facades\Validator;
+use Thinkcreative\Contact\Http\Requests\StoreContact;
 
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Database\QueryException;
 
@@ -61,7 +62,7 @@ class ContactController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreContact $request)
     {   
 
         // @todo: validate request
