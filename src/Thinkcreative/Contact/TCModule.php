@@ -24,9 +24,9 @@ class TCModule extends Model
 
     public static function DropModule($name, $showinmenu = true) {
         
-        $module = new Self;
-        $module->where('name', '=', $name);
-        $module->delete();
+        $module = (new TCModule)
+                    ->where('name', '=', $name)
+                    ->delete();
         
     }
 

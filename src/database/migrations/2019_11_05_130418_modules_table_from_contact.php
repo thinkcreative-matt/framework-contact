@@ -40,6 +40,6 @@ class ModulesTableFromContact extends Migration
     {
         // Schema::dropIfExists('modules');
         
-        TCModule::DropModule('blog');
+        TCModule::DropModule('contact');
     }
 }
