@@ -13,7 +13,7 @@ class CreateContactFormTable extends Migration
      */
     public function up()
     {
-        Schema::create('contact', function (Blueprint $table) {
+        Schema::create('contact_form', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
             $table->string('field');
@@ -29,6 +29,6 @@ class CreateContactFormTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('contact');
+        Schema::dropIfExists('contact_form');
     }
 }

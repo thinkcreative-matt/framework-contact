@@ -21,4 +21,13 @@ class TCModule extends Model
         $module->show_in_menu = $showinmenu;
         $module->save();
     }
+
+    public static function DropModule($name, $showinmenu = true) {
+        
+        $module = new Self;
+        $module->where('name', '=', $name);
+        $module->delete();
+        
+    }
+
 }

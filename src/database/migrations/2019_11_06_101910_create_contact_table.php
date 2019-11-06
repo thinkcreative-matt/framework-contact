@@ -20,7 +20,7 @@ class CreateContactTable extends Migration
             $table->string('number')->nullable();
             $table->string('email')->nullable();
             $table->boolean('showform')->nullable();
-            $table->enum('direction'['horizontal','vertical'])->nullable();
+            $table->enum('direction', ['horizontal','vertical'])->nullable();
             $table->timestamps();
         });
     }

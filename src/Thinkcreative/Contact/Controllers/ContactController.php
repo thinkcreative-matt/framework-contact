@@ -16,7 +16,11 @@ class ContactController extends Controller {
     public function index() 
     {
 
-        dd('Contact Front End')
+    	$contact = Contact::firstOrFail();
+
+        return view('contact::contact', [
+        	'contact' => $contact
+        ]);
 
     }
 

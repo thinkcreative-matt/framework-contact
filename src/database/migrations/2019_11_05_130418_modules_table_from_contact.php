@@ -27,7 +27,7 @@ class ModulesTableFromContact extends Migration
             });
         }
         
-        TCModule::AddModule('blog');
+        TCModule::AddModule('contact');
 
     }
 
@@ -38,6 +38,8 @@ class ModulesTableFromContact extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('modules');
+        // Schema::dropIfExists('modules');
+        
+        TCModule::DropModule('blog');
     }
 }
