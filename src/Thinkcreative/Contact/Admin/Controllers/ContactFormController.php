@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Database\QueryException;
 
-class ContactController extends Controller
+class ContactFormController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -22,10 +22,11 @@ class ContactController extends Controller
      */
     public function index()
     {
+        dd('contact form index');
 
         //  Do nothing and send back the results
         return view('admin-contact::index', [
-            'contact' => Contact::first()
+            'contact' => Contact::first();
         ]);
         
     }
@@ -37,6 +38,8 @@ class ContactController extends Controller
      */
     public function create()
     {
+
+        dd('contact form create');
 
         $info = Contact::first();
 
@@ -62,6 +65,8 @@ class ContactController extends Controller
      */
     public function store(Request $request)
     {   
+
+        dd('contact form store');
 
         // @todo: validate request
          
@@ -94,6 +99,8 @@ class ContactController extends Controller
     public function show($id)
     {
 
+        dd('contact form show');
+
         $contact = Contact::where('id', $id)->first();
         return view('admin-contact::show', compact('contact'));
     }
@@ -106,6 +113,8 @@ class ContactController extends Controller
      */
     public function edit($id)
     {
+        dd('contact form edit');
+
         $contact = Contact::where('id', $id)->first();
 
         if(is_null($contact)) 
@@ -128,7 +137,7 @@ class ContactController extends Controller
      */
     public function update(Request $request, $slug)
     {
-
+        dd('contact form update');
         // @todo: validate request
         
         $contact = new Contact;
@@ -139,8 +148,8 @@ class ContactController extends Controller
         try {
 
             $post->save();
-            Log::debug("contact information updated");
-            flash("Contact Information updated")->success(); 
+            Log::debug("{$request->title} updated");
+            flash("Post, {$request->title}, updated")->success(); 
 
         } catch(QueryException $e) {
             Log::error('Update Blog -- ' . $e);
@@ -159,6 +168,8 @@ class ContactController extends Controller
      */
     public function destroy($id)
     {
+        dd('contact form destroy');
+
         $contact = Contact::find($id)->firstOrFail();
 
         try {
