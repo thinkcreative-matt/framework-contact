@@ -4,7 +4,7 @@ namespace Thinkcreative\Contact;
 
 use Illuminate\Support\ServiceProvider;
 
-use Thinkcreative\Contact\Http\Requests\StoreContactInformation;
+use Thinkcreative\Contact\Http\Requests\StoreContact;
 use Thinkcreative\Contact\TCModule;
 
 class ContactServiceProvider extends ServiceProvider
@@ -79,8 +79,8 @@ class ContactServiceProvider extends ServiceProvider
 		});
 		//  This can be used to register validations requests etc etc.. .
 		  
-		$this->app->singleton(StoreContactInformation::class, function() {
-			return new StoreContactInformation();
+		$this->app->singleton(StoreContact::class, function() {
+			return new StoreContact();
 		});
 
 		$this->app->alias(Contact::class, 'contact');
