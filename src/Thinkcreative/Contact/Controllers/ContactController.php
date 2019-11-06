@@ -15,7 +15,7 @@ class ContactController extends Controller {
      */
     public function index() 
     {
-
+        //  Return 404 if we dont have a contact us page. 
     	$contact = Contact::firstOrFail();
 
         return view('contact::contact', [

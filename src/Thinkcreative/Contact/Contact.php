@@ -17,6 +17,10 @@ class Contact extends Model
 
 	protected $fillable = [];
 
+	protected $casts = [
+		'showonform' => 'boolean'
+	];
+
 	
 
 

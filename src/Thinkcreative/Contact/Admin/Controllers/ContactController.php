@@ -41,8 +41,9 @@ class ContactController extends Controller
         $info = Contact::first();
 
         //  If we already have some, we just need to update what we have.
-        if( !empty($info) ) {
-            $whereTo = 'admin-contact::index';
+        if( is_null($info) ) {
+            $whereTo = 'admin-contact::create';
+            $info = new Contact;
         } else {
             $whereTo = 'admin-contact::update';
         }
@@ -66,10 +67,12 @@ class ContactController extends Controller
         // @todo: validate request
          
         $contact = new Contact;
-        $contact->address = $request->address;
-        $contact->intro = $request->number;
-        $contact->body  = $request->email;
-    
+
+        $contact->address = json_encode($request->address);
+        $contact->number = $request->number;
+        $contact->email  = $request->email;
+        $contact->showform = ($request->showform == 'on' ? 1 : 0 );
+        $contact->dorection = $request->dorection;
 
         try {
 
@@ -79,7 +82,7 @@ class ContactController extends Controller
 
         } catch(QueryException $e) {
             Log::error('Create Contact -- ' . $e);
-            flash('Something went wrong. Please try again')->danger();
+            flash('Something went wrong. Please try again')->error();
         }
 
         return redirect()->route('admin.contact.index');
