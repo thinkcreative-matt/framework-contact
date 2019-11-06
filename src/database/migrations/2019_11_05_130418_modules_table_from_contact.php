@@ -4,9 +4,9 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-use Thinkcreative\Blog\TCModule;
+use Thinkcreative\Contact\TCModule;
 
-class ModulesTableFromBlog extends Migration
+class ModulesTableFromContact extends Migration
 {
     /**
      * Run the migrations.
