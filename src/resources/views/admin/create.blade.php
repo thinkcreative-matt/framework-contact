@@ -23,6 +23,13 @@
 		{{ Form::model($contact, ['route' => [ 'admin.contact.store' ], 'method' => 'POST', 'class' => 'needs-validation']) }}
 
 			@include('admin-contact::components.form')
+
+			<div class="form-row">
+				<div class="form-group">
+					{{ Form::submit('Create Contact Information', ['class' => 'btn btn-success']) }}
+					<a href="{{route('admin.contact.index')}}" class="btn btn-secondary">Back</a>
+				</div>
+			</div>
 			
 		{{ Form::close() }}
 

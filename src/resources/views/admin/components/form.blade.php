@@ -46,9 +46,4 @@
 			{{ Form::label('showform', 'Show form on page', ['class' => 'custom-control-label']) }}
 		</div>
 	</div>
-
-	<div class="form-group">
-		{{ Form::submit('Update Contact Information', ['class' => 'btn btn-warning']) }}
-		<a href="{{route('admin.contact.index')}}" class="btn btn-secondary">Back</a>
-	</div>
 </div>

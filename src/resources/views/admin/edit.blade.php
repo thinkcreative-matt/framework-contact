@@ -23,6 +23,11 @@
 		{{ Form::model($contact, ['route' => [ 'admin.contact.update', $contact->id ], 'method' => 'PUT', 'class' => 'needs-validation']) }}
 
 			@include('admin-contact::components.form')
+
+			<div class="form-group">
+				{{ Form::submit('Update Contact Information', ['class' => 'btn btn-warning']) }}
+				<a href="{{route('admin.contact.index')}}" class="btn btn-secondary">Back</a>
+			</div>
 			
 		{{ Form::close() }}
 	</div>
