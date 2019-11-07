@@ -21,4 +21,14 @@ class Contact extends Model
 		'showform' => 'boolean'
 	];
 
+	public function getAddressAttribute()
+	{	
+		if( !empty($this->attributes) ) {
+			return collect(json_decode($this->attributes['address']));
+			
+		} else {
+			return $this->attributes['address'] = '';
+		}
+	}
+
 }

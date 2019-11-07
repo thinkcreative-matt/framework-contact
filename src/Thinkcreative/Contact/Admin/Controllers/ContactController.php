@@ -46,7 +46,7 @@ class ContactController extends Controller
             $whereTo = 'admin-contact::create';
             $info = new Contact;
         } else {
-            $whereTo = 'admin-contact::update';
+            $whereTo = 'admin-contact::edit';
         }
 
         // send back the results
@@ -96,9 +96,9 @@ class ContactController extends Controller
     public function edit($id)
     {
         $contact = Contact::where('id', $id)->first();
-        // convert the address details.
-        // 
-        $contact->address = collect(json_decode($contact->address));
+        
+        // convert the address details - Now on model
+        $contact->address = $contact->address;
 
         if(is_null($contact)) 
         {

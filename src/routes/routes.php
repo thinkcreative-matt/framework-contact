@@ -10,7 +10,7 @@ Route::group(['namespace' => 'Thinkcreative\Contact\Admin\Controllers', 'prefix'
 	// Get the blog posts. We dont need to do anything else here. 
     Route::resource('contact', 'ContactController', ['except' => ['show'] ]);
     
-    Route::resource('contact/form', 'ContactFormController', ['as'=>'contact']);
+    Route::resource('contact/form', 'ContactFormController', ['as'=>'contact', 'except' => ['show', 'index']]);
 
 });
 

@@ -15,22 +15,7 @@ use Illuminate\Database\QueryException;
 
 class ContactFormController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        dd('contact form index');
-
-        //  Do nothing and send back the results
-        return view('admin-contact::index', [
-            'contact' => Contact::first();
-        ]);
-        
-    }
-
+    
     /**
      * Show the form for creating a new resource.
      *
@@ -39,7 +24,7 @@ class ContactFormController extends Controller
     public function create()
     {
 
-        dd('contact form create');
+        
 
         $info = Contact::first();
 
@@ -47,7 +32,7 @@ class ContactFormController extends Controller
         if( !empty($info) ) {
             $whereTo = 'admin-contact::index';
         } else {
-            $whereTo = 'admin-contact::update';
+            $whereTo = 'admin-contact::edit';
         }
 
         // send back the results

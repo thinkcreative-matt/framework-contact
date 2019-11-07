@@ -9,19 +9,19 @@
 <div class="form-row">
 	<div class="form-group col-md-3">
 		{{ Form::label('address[streetname]', 'Street Name') }}
-		{{ Form::text('address[streetname]', $contact->address['streetname'], ['class' => 'form-control']) }}
+		{{ Form::text('address[streetname]', $contact->address['streetname'] ?? '', ['class' => 'form-control']) }}
 	</div>
 	<div class="form-group col-md-3">
 		{{ Form::label('address[optionalstreet]', 'Optional Street Name') }}
-		{{ Form::text('address[optionalstreet]', $contact->address['optionalstreet'], ['class' => 'form-control']) }}
+		{{ Form::text('address[optionalstreet]', $contact->address['optionalstreet'] ?? '', ['class' => 'form-control']) }}
 	</div>
 	<div class="form-group col-md-3">
 		{{ Form::label('address[locality]', 'County') }}
-		{{ Form::text('address[locality]', $contact->address['locality'], ['class' => 'form-control']) }}
+		{{ Form::text('address[locality]', $contact->address['locality'] ?? '' , ['class' => 'form-control']) }}
 	</div>
 	<div class="form-group col-md-3">
 		{{ Form::label('address[postcode]', 'Post Code') }}
-		{{ Form::text('address[postcode]', $contact->address['postcode'], ['class' => 'form-control']) }}
+		{{ Form::text('address[postcode]', $contact->address['postcode'] ?? '', ['class' => 'form-control']) }}
 	</div>
 </div>
 	
