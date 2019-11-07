@@ -78,12 +78,12 @@ class ContactServiceProvider extends ServiceProvider
 			return new Contact();
 		});
 		//  This can be used to register validations requests etc etc.. .
-		e('about to run');
-		$this->app->singleton(StoreContact::class, function() {
-			return new StoreContact();
-		});
+		// e('about to run');
+		// $this->app->singleton(StoreContact::class, function() {
+		// 	return new StoreContact();
+		// });
 
-		e('run');
+		// e('run');
 
 		$this->app->alias(Contact::class, 'contact');
 	}
