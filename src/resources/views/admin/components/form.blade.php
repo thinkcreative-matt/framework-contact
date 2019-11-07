@@ -41,9 +41,9 @@
 	</div>
 
 	<div class="form-group  col-md-12">
-		<div class="form-check">
-			{{ Form::checkbox('showform', $contact->show, NULL , ['class' => 'form-check-input']) }}
-			{{ Form::label('showform', 'Show form on page', ['class' => 'form-check-label']) }}
+		<div class="custom-control custom-switch">
+			{{ Form::checkbox('showform', $contact->show, NULL , ['class' => 'custom-control-input', 'id' => 'showform']) }}
+			{{ Form::label('showform', 'Show form on page', ['class' => 'custom-control-label']) }}
 		</div>
 	</div>
 

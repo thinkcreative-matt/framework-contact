@@ -24,7 +24,9 @@
                         </div>
                         <div class="card-body">
                             <h5 class="card-title">{{$contact->companyname}}</h5>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                            <span class="badge badge-info">
+                                {{($contact->showform ? 'Show ' : 'Do not show ')}}the form on front page
+                            </span>
                         </div>
                         <div class="card-body">
                             @forelse(json_decode($contact->address) as $name => $value)
@@ -43,7 +45,7 @@
                                 <li class="list-group-item">Email: {{$contact->email}}</li>
                             @endif
                             @if($contact->number)
-                                <li class="list-group-item">Number: {{$contact->number}}</li>
+                                <li class="list-group-item">Tel: {{$contact->number}}</li>
                             @endif
                             @if($contact->direction)
                                 <li class="list-group-item">Direction: {{$contact->direction}}</li>

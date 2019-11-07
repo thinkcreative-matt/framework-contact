@@ -28,9 +28,16 @@ class StoreContact extends FormRequest
             'address' => 'array|nullable',
             'number' => 'numeric|nullable',
             'email' => 'email:rfc|nullable',
-            'showform' => 'boolean|nullable',
+            'showform' => 'in:on,0',
             'direction' => 'in:horizontal,vertical|nullable'
 
+        ];
+    }
+
+    public function messages() 
+    {
+        return [
+            'showform' => 'Show on the form must be Yes or No.'
         ];
     }
 }
