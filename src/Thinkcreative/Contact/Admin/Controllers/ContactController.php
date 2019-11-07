@@ -64,16 +64,14 @@ class ContactController extends Controller
      */
     public function store(StoreContact $request)
     {   
-
-        // @todo: validate request
          
         $contact = new Contact;
-
+        $contact->companyname = $request->companyname;
         $contact->address = json_encode($request->address);
         $contact->number = $request->number;
         $contact->email  = $request->email;
         $contact->showform = ($request->showform == 'on' ? 1 : 0 );
-        $contact->dorection = $request->dorection;
+        $contact->direction = $request->direction;
 
         try {
 
@@ -90,19 +88,6 @@ class ContactController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-
-        $contact = Contact::where('id', $id)->first();
-        return view('admin-contact::show', compact('contact'));
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
@@ -111,6 +96,9 @@ class ContactController extends Controller
     public function edit($id)
     {
         $contact = Contact::where('id', $id)->first();
+        // convert the address details.
+        // 
+        $contact->address = collect(json_decode($contact->address));
 
         if(is_null($contact)) 
         {
@@ -130,19 +118,22 @@ class ContactController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $slug)
+    public function update(StoreContact $request, $id)
     {
 
-        // @todo: validate request
         
-        $contact = new Contact;
-        $contact->address = $request->address;
-        $contact->intro = $request->number;
-        $contact->body  = $request->email;
+        $contact = Contact::where('id', $id)->first();
+
+        $contact->companyname = $request->companyname;
+        $contact->address = json_encode($request->address);
+        $contact->number = $request->number;
+        $contact->email  = $request->email;
+        $contact->showform = ($request->showform == 'on' ? 1 : 0 );
+        $contact->direction = $request->direction;
 
         try {
 
-            $post->save();
+            $contact->save();
             Log::debug("contact information updated");
             flash("Contact Information updated")->success(); 
 

@@ -1,55 +1,70 @@
 {{-- @extends('tcadmin::layout') --}}
 @extends('admin.layout')
 
+@section('subnav')
+    <a class="btn btn-light" href="{{route('admin')}}" role="button">Back To Dashboard</a>
+@endsection
+
 @section('content')
 
-    @include('admin-contact::components.subnav')
-
     <div class="admin-container container contact">
-        <table class="table table-sm">
-            <thead>
-                
-                <th>Company Name</th>
-                <th>Created At</th>
-                <th></th>
-                <th></th>
-            </thead>
-            <tbody>
-            
-                
+        <h1>Contact Administration</h1>
+        <div class="row h-100 py-5">
             @empty($contact)
-                <tr>
-                    <td colspan="4">No contact information is set</td>
-                </tr>
+                <div class="col-md-12 justify-content-center align-items-center h-100 d-flex flex-column">
+                    <p class="align-self-center">No contact information is set</p>
+                    <a class="btn btn-success" href="{{route('admin.contact.create')}}" role="button">Create New Contact Information</a>
+                </div>
             @else
-                <tr>
-                    <td>{{$contact->title}}</td>
-                    <td>{{$contact->created_at->toFormattedDateString()}} <small class="text-muted">{{$post->created_at->diffForHumans()}}</small></td>
-                    <td>
-                        <div class="btn-group btn-group-sm" role="group" aria-label="Contact Actions">
-                            <a class="btn btn-dark text-light btn-sm" href="{{ route('admin.contact.edit', $contact->id) }}">
-                                <i class="text-dark fa-pencil"></i>
-                                edit
-                            </a>
-                            <a class="btn btn-light btn-sm" href="{{ route('admin.contact.show', $contact->id ) }}">
-                                <i class="text-dark fa-eye"></i>
-                                view    
-                            </a>
+                <div class="col-md-4 border-right">
+                    <div class="card" >
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="m-0">Contact Information</h5>
+                            <a href="{{route('admin.contact.destroy', $contact->id)}}" class="btn btn-danger">delete</a>
                         </div>
-                    </td>
-                    <td>
-                        <form action="{{ route('admin.contact.destroy', $contact->id) }}" method="POST">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-sm">
-                                <i class="text-white fa-trash"></i>
-                                delete
-                            </button>   
-                        </form>
-                    </td>
-                </tr>
+                        <div class="card-body">
+                            <h5 class="card-title">{{$contact->companyname}}</h5>
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        </div>
+                        <div class="card-body">
+                            @forelse(json_decode($contact->address) as $name => $value)
+                                @if($value)
+                                    <p>{{ucwords($name)}}: {{$value}}</p>
+                                @endif
+                            @empty
+                            @endforelse
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            @if( empty($contact->email) && empty($contact->number) && empty($contact->direction) )
+                                <li class="list-group-item">No information set</li>
+                            @endif
+
+                            @if($contact->email)
+                                <li class="list-group-item">Email: {{$contact->email}}</li>
+                            @endif
+                            @if($contact->number)
+                                <li class="list-group-item">Number: {{$contact->number}}</li>
+                            @endif
+                            @if($contact->direction)
+                                <li class="list-group-item">Direction: {{$contact->direction}}</li>
+                            @endif
+                        </ul>
+                        <div class="card-body">
+                            <a href="{{route('admin.contact.edit', $contact->id)}}" class="btn btn-dark">edit</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    @empty($contactForm)
+                        <div class="col-md-12 justify-content-center align-items-center h-100 d-flex flex-column">
+                            <p class="align-self-center">No Form made</p>
+                            <a class="btn btn-success" href="{{route('admin.contact.form.create')}}" role="button">Create New Form</a>
+                        </div>
+                    @else
+                        
+                    @endif
+                </div>
             @endif
-            </tbody>
-        </table>
+        </div>
     </div>
 @endsection
