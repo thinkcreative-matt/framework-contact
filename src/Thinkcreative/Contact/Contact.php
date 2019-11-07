@@ -31,4 +31,9 @@ class Contact extends Model
 		}
 	}
 
+	public function form() 
+	{
+		return $this->hasMany('Thinkcreative\\Contact\\ContactForm');
+	}
+
 }

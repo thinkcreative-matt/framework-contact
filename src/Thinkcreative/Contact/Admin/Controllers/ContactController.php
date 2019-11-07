@@ -23,10 +23,9 @@ class ContactController extends Controller
      */
     public function index()
     {
-
         //  Do nothing and send back the results
         return view('admin-contact::index', [
-            'contact' => Contact::first()
+            'contact' => Contact::with('form')->first()
         ]);
         
     }
