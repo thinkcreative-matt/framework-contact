@@ -6,8 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 
-
 use Thinkcreative\Contact\Contact;
+use Thinkcreative\Contact\ContactForm;
 use Illuminate\Support\Facades\Validator;
 
 use Illuminate\Support\Facades\Log;
@@ -24,20 +24,9 @@ class ContactFormController extends Controller
     public function create()
     {
 
-        
-
-        $info = Contact::first();
-
-        //  If we already have some, we just need to update what we have.
-        if( !empty($info) ) {
-            $whereTo = 'admin-contact::index';
-        } else {
-            $whereTo = 'admin-contact::edit';
-        }
-
         // send back the results
-        return view($whereTo, [
-            'contact' => $info
+        return view('admin-contact::form.create', [
+            'form' => new ContactForm
         ]);
 
     }
@@ -51,25 +40,42 @@ class ContactFormController extends Controller
     public function store(Request $request)
     {   
 
-        dd('contact form store');
-
         // @todo: validate request
-         
-        $contact = new Contact;
-        $contact->address = $request->address;
-        $contact->intro = $request->number;
-        $contact->body  = $request->email;
-    
+
+
+        // Get the form to associate the fields with.
+        $parent = Contact::first();
+
+        //  Check to see how many fields were posted. 
+        $count = count($request->field);
+
+        // make sure we have an equal amount in all columns ['field', 'value', 'name']
+        if($count !== count($request->value) || $count !== count($request->name) ) 
+        {
+            flash('We have uneven amounts of data. Try again please.')->error();
+            return redirect()->back();
+        }
 
         try {
 
-            $contact->save();
-            Log::debug("Contact Information Created");
-            flash("Contact Information Created")->success(); 
+            foreach($request->field as $index => $fieldValue)
+            {
+
+                $field = new ContactForm;
+                $field->contact_id = $parent->id;
+                $field->field = $fieldValue;
+                $field->value = json_encode($request->value[$index]);
+                $field->name = $request->name[$index];
+                $field->save();
+
+            }
+
+            Log::debug("Contact Form Created");
+            flash("Contact Form Created")->success(); 
 
         } catch(QueryException $e) {
-            Log::error('Create Contact -- ' . $e);
-            flash('Something went wrong. Please try again')->danger();
+            Log::error('Create Contact Form -- ' . $e);
+            flash('Something went wrong. Please try again')->error();
         }
 
         return redirect()->route('admin.contact.index');

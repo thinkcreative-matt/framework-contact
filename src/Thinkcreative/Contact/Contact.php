@@ -6,29 +6,44 @@ use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 
-class Contact extends Model
+// use Collective\Html\FormFacade;
+
+class ContactForm extends Model
 {
 
 	/**
 	 * Set the default blog post table to be `blog`
 	 * @var string
 	 */
-	protected $table = 'contact';
+	protected $table = 'contact_form';
 
 	protected $fillable = [];
 
-	protected $casts = [
-		'showform' => 'boolean'
-	];
 
-	public function getAddressAttribute()
-	{	
-		if( !empty($this->attributes) ) {
-			return collect(json_decode($this->attributes['address']));
+	public function getFormattedValuesAttribute($value)
+	{
+
+		$name = $this->attributes['name'];
+		$value = json_decode($this->attributes['value']);
+
+		if(strpos($value, ',') !== false)
+		{
+			//  We have an arrray, lets make a side assoc so we can pass it to Form::xxx($values);
+			 $array = [];
 			
-		} else {
-			return $this->attributes['address'] = '';
+			$new = collect(explode(',', $value))->map(function ($item, $value) use (&$array) {
+				$key = str_replace(' ', '_', $item);
+				
+				$array[$key] = $item;
+				
+				return true;				
+			});
+
+			return json_encode($array);
 		}
+
+		return json_encode($value);
+
 	}
 
 	public function form() 
