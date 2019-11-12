@@ -19,7 +19,7 @@ class ContactMessage extends Model
 	 */
 	protected $table = 'contact_messages';
 
-	protected $fillable = [];
+	protected $fillable = ['read_at'];
 
 	protected $dates = ['read_at'];
 
@@ -30,6 +30,11 @@ class ContactMessage extends Model
 		
 		return collect(json_decode($this->attributes['information']))->get($index);
 		
+	}
+
+	public function getInfoAttribute()
+	{
+		return collect(json_decode($this->attributes['information']))->toArray();
 	}
 
 	public function scopeUnread($query)

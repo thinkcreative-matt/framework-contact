@@ -123,7 +123,8 @@
 			return fields;
 		}
 
-		function deleteBtn_Click() {
+		function deleteBtn_Click(event) {
+
 			let all = document.querySelectorAll('.deleteRow-createFieldsForm ');
 			if(all.length <= 1) {
 				//  cant be deleted
@@ -144,10 +145,10 @@
 
 		const createNewFormRow 	= document.getElementById('createNew-FormRow_Admin');
 		const duplicateRow 		= document.getElementById('duplicate-row');
-		const deleteBtn 		= document.querySelector('.deleteRow-createFieldsForm ');
+		const deleteBtn 		= document.querySelectorAll('.deleteRow-createFieldsForm ');
 		
 
-		deleteBtn.addEventListener('click', deleteBtn_Click);
+		deleteBtn.forEach(elem => {elem.addEventListener('click', deleteBtn_Click);});
 
 
 		createNewFormRow.addEventListener('click', function() {
