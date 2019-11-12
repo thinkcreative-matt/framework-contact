@@ -23,12 +23,22 @@ class ContactFormController extends Controller
      */
     public function create()
     {
+        $info = ContactForm::all();
 
+        //  If we already have some, we just need to update what we have.
+        if( is_null($info) ) {
+            $whereTo = 'admin-contact::form.create';
+            $info = new Contact;
+        } else {
+            $whereTo = 'admin-contact::form.edit';
+        }
+        
         // send back the results
-        return view('admin-contact::form.create', [
-            'form' => new ContactForm
+        return view($whereTo, [
+            'form' => $info,
+            'contactform' => Contact::first()
         ]);
-
+        
     }
 
     /**
@@ -42,13 +52,10 @@ class ContactFormController extends Controller
 
         // @todo: validate request
 
-
         // Get the form to associate the fields with.
         $parent = Contact::first();
-
         //  Check to see how many fields were posted. 
         $count = count($request->field);
-
         // make sure we have an equal amount in all columns ['field', 'value', 'name']
         if($count !== count($request->value) || $count !== count($request->name) ) 
         {
@@ -60,6 +67,8 @@ class ContactFormController extends Controller
 
             foreach($request->field as $index => $fieldValue)
             {
+                if(is_null($request->field))
+                    continue;
 
                 $field = new ContactForm;
                 $field->contact_id = $parent->id;
@@ -81,20 +90,6 @@ class ContactFormController extends Controller
         return redirect()->route('admin.contact.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-
-        dd('contact form show');
-
-        $contact = Contact::where('id', $id)->first();
-        return view('admin-contact::show', compact('contact'));
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -104,18 +99,20 @@ class ContactFormController extends Controller
      */
     public function edit($id)
     {
-        dd('contact form edit');
 
         $contact = Contact::where('id', $id)->first();
 
         if(is_null($contact)) 
         {
             // bail, contact information isn't there. 
-            abort(404, 'weird... This contact information isn\'t available.');
+            abort(404, 'weird... This contact information and form isn\'t available.');
         }
-        
-        return view('admin-contact::edit', [
-            'contact' => $contact
+
+        $info = ContactForm::where('contact_id', $id)->get();
+
+        return view('admin-contact::form.edit', [
+            'form' => $info,
+            'contactform' => $contact
         ]);
     }
 
@@ -126,25 +123,45 @@ class ContactFormController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $slug)
+    public function update(Request $request, $id)
     {
-        dd('contact form update');
+
         // @todo: validate request
         
-        $contact = new Contact;
-        $contact->address = $request->address;
-        $contact->intro = $request->number;
-        $contact->body  = $request->email;
+        //  Check to see how many fields were posted. 
+        $count = count($request->field);
+        // make sure we have an equal amount in all columns ['field', 'value', 'name']
+        if($count !== count($request->value) || $count !== count($request->name) ) 
+        {
+            flash('We have uneven amounts of data. Try again please.')->error();
+            return redirect()->back();
+        }
 
         try {
 
-            $post->save();
-            Log::debug("{$request->title} updated");
-            flash("Post, {$request->title}, updated")->success(); 
+            //  Lets remove all the previous fields ready to create new ones. 
+            ContactForm::where('contact_id', $id)->delete();
+
+            foreach($request->field as $index => $fieldValue)
+            {   
+                if(is_null($request->field))
+                    continue;
+
+                $field = new ContactForm;
+                $field->contact_id = $id;
+                $field->field = $fieldValue;
+                $field->value = json_encode($request->value[$index]);
+                $field->name = $request->name[$index];
+                $field->save();
+
+            }
+
+            Log::debug("Contact Form Updated");
+            flash("Contact Form Updates")->success(); 
 
         } catch(QueryException $e) {
-            Log::error('Update Blog -- ' . $e);
-            flash("Something went wrong. Please try again")->danger();
+            Log::error('Update Contact Form -- ' . $e);
+            flash('Something went wrong. Please try again')->error();
         }
 
         return redirect()->route('admin.contact.index');
@@ -159,22 +176,17 @@ class ContactFormController extends Controller
      */
     public function destroy($id)
     {
-        dd('contact form destroy');
-
-        $contact = Contact::find($id)->firstOrFail();
-
-        try {
-
-            $contact->delete();
-            Log::debug("Contact Information deleted");
-            flash("Contact Information deleted")->error(); 
-
-        } catch(QueryException $e) {
-            Log::error('Contact Information Deleted -- ' . $e);
-            flash("Something went wrong. Please try again")->warning();
-        }
-
-        return redirect()->route('admin.contact.index');
+        // dd('contact form destroy');
+        // $contact = Contact::find($id)->firstOrFail();
+        // try {
+        //     $contact->delete();
+        //     Log::debug("Contact Information deleted");
+        //     flash("Contact Information deleted")->error(); 
+        // } catch(QueryException $e) {
+        //     Log::error('Contact Information Deleted -- ' . $e);
+        //     flash("Something went wrong. Please try again")->warning();
+        // }
+        // return redirect()->route('admin.contact.index');
         
     }
 }

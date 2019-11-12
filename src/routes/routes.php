@@ -12,6 +12,9 @@ Route::group(['namespace' => 'Thinkcreative\Contact\Admin\Controllers', 'prefix'
     
     Route::resource('contact/form', 'ContactFormController', ['as'=>'contact', 'except' => ['show', 'index']]);
 
+    Route::get('contact/messages', 'ContactMessagesController@index')->name('contact.messages.index');
+    Route::get('contact/messages/{id}', 'ContactMessagesController@show')->name('contact.messages.show');
+
 });
 
 //  Ensure we are using the blog we want to. 
@@ -19,6 +22,8 @@ Route::group(['namespace' => 'Thinkcreative\Contact\Controllers'], function() {
 
 	// Get the contact posts. We dont need to do anything else here. 
     Route::get('contact', 'ContactController@index')->name('contact');
+
+    Route::post('contact', 'ContactController@saveMessage')->name('contact.savemessage');
 
 });
 

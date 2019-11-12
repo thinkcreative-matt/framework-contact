@@ -3,6 +3,7 @@
 
 @section('subnav')
     <a class="btn btn-light" href="{{route('admin')}}" role="button">Back To Dashboard</a>
+    <a class="btn btn-light" href="{{route('admin.contact.messages.index')}}" role="button">View Messages <span class="badge badge-dark text-light">{{$unread ?? 0 }}</span></a>
 @endsection
 
 @section('content')
@@ -116,3 +117,8 @@
         </div>
     </div>
 @endsection
+
+
+
+
+

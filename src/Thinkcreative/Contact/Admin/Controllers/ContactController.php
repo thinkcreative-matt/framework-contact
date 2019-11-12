@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 
 
 use Thinkcreative\Contact\Contact;
+use Thinkcreative\Contact\ContactMessage;
 use Thinkcreative\Contact\Http\Requests\StoreContact;
 
 use Illuminate\Support\Facades\Validator;
@@ -23,9 +24,13 @@ class ContactController extends Controller
      */
     public function index()
     {
+
+        $unread = ContactMessage::unread()->count();
+        
         //  Do nothing and send back the results
         return view('admin-contact::index', [
-            'contact' => Contact::with('form')->first()
+            'contact' => Contact::with('form')->first(),
+            'unread' => $unread
         ]);
         
     }

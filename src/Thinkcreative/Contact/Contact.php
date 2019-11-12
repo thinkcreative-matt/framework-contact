@@ -5,45 +5,31 @@ namespace Thinkcreative\Contact;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
+use Thinkcreative\Contact\ContactForm;
 
-// use Collective\Html\FormFacade;
-
-class ContactForm extends Model
+class Contact extends Model
 {
 
 	/**
 	 * Set the default blog post table to be `blog`
 	 * @var string
 	 */
-	protected $table = 'contact_form';
+	protected $table = 'contact';
 
 	protected $fillable = [];
 
+	protected $casts = [
+		'showform' => 'boolean'
+	];
 
-	public function getFormattedValuesAttribute($value)
-	{
-
-		$name = $this->attributes['name'];
-		$value = json_decode($this->attributes['value']);
-
-		if(strpos($value, ',') !== false)
-		{
-			//  We have an arrray, lets make a side assoc so we can pass it to Form::xxx($values);
-			 $array = [];
+	public function getAddressAttribute()
+	{	
+		if( !empty($this->attributes) ) {
+			return collect(json_decode($this->attributes['address']));
 			
-			$new = collect(explode(',', $value))->map(function ($item, $value) use (&$array) {
-				$key = str_replace(' ', '_', $item);
-				
-				$array[$key] = $item;
-				
-				return true;				
-			});
-
-			return json_encode($array);
+		} else {
+			return $this->attributes['address'] = '';
 		}
-
-		return json_encode($value);
-
 	}
 
 	public function form() 
