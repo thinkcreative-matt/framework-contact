@@ -18,8 +18,13 @@
 			</div>
 
 			<ul>
+				@if($contact->number)
 				<li>Tel:<span itemprop="telephone">{{$contact->number}}</span></li>
+				@endif
+				
+				@if($contact->email)
 				<li>E-mail: <span itemprop="email">{{$contact->email}}</span></li>
+				@endif
 			</ul>
 		</div>
 	</div>
